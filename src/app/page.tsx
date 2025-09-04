@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
+import Script from 'next/script';
 
 function randomChallenge(length = 32): Uint8Array {
   const randomValues = new Uint8Array(length);
@@ -90,6 +91,11 @@ export default function FingerprintDemo() {
       <pre className="bg-gray-100 p-4 mt-4 rounded text-sm overflow-auto">
         {log}
       </pre>
+      <Script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer
+      />
     </main>
   );
 }
