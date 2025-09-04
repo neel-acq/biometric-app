@@ -41,9 +41,13 @@ export default function FingerprintDemo() {
       });
 
       setLog('✅ Registration Success:\n' + JSON.stringify(regResp, null, 2));
-    } catch (err: any) {
+    } catch (err: unknown) {
+    if (err instanceof Error) {
       setLog('❌ Registration error: ' + err.message);
+    } else {
+      setLog('❌ Registration error: ' + String(err));
     }
+  }
   };
 
   const login = async () => {
@@ -58,9 +62,13 @@ export default function FingerprintDemo() {
       });
 
       setLog('✅ Auth Success:\n' + JSON.stringify(authResp, null, 2));
-    } catch (err: any) {
-      setLog('❌ Auth error: ' + err.message);
+    } catch (err: unknown) {
+    if (err instanceof Error) {
+      setLog('❌ login error: ' + err.message);
+    } else {
+      setLog('❌ login error: ' + String(err));
     }
+  }
   };
 
   return (
