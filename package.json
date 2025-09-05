@@ -11,7 +11,9 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.46.0",
     "@simplewebauthn/browser": "^13.1.2",
+    "@uploadcare/react-uploader": "^1.10.2",
     "next": "15.5.2",
+    "next-auth": "^4.24.11",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
