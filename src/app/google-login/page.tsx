@@ -38,7 +38,7 @@ export default function GoogleLoginPage() {
     script.onload = () => {
       if (window.google && buttonDiv.current) {
         window.google.accounts.id.initialize({
-          client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+          client_id: process.env.GOOGLE_CLIENT_ID!,
           callback: handleResponse,
         });
 
