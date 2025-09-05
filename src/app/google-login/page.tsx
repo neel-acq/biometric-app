@@ -2,10 +2,27 @@
 
 import { useEffect, useRef } from "react";
 
-// Add a global type declaration for window.google
+export interface GoogleCredentialResponse {
+  credential: string;
+  select_by: string;
+}
+
 declare global {
   interface Window {
-    google?: any;
+    google?: {
+      accounts: {
+        id: {
+          initialize: (options: {
+            client_id: string;
+            callback: (response: GoogleCredentialResponse) => void;
+          }) => void;
+          renderButton: (
+            parent: HTMLElement,
+            options: { theme: string; size: string }
+          ) => void;
+        };
+      };
+    };
   }
 }
 
@@ -13,14 +30,12 @@ export default function GoogleLoginPage() {
   const buttonDiv = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Load Google Identity script
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
     script.async = true;
     script.defer = true;
     script.onload = () => {
       if (window.google && buttonDiv.current) {
-        // Initialize button
         window.google.accounts.id.initialize({
           client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
           callback: handleResponse,
@@ -35,8 +50,8 @@ export default function GoogleLoginPage() {
     document.body.appendChild(script);
   }, []);
 
-  const handleResponse = (response: any) => {
-    // response.credential is a JWT (ID token)
+  const handleResponse = (response: GoogleCredentialResponse) => {
+    // response.credential is a JWT ID token
     const base64Url = response.credential.split(".")[1];
     const decoded = JSON.parse(atob(base64Url));
     console.log("Decoded user info:", decoded);
