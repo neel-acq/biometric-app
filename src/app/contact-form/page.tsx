@@ -2,12 +2,18 @@
 import Script from "next/script";
 import { useEffect, useState } from "react";
 
+declare global {
+  interface Window {
+    onTurnstileSuccess?: (token: string) => void;
+  }
+}
+
 export default function ContactForm() {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   // Expose a global callback for Cloudflare Turnstile
   useEffect(() => {
-    (window as any).onTurnstileSuccess = function (token: string) {
+    window.onTurnstileSuccess = (token: string) => {
       setCaptchaToken(token);
     };
   }, []);
